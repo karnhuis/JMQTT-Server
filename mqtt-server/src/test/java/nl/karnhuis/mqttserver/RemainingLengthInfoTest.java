@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DeterminePacketStructureTest {
+public class RemainingLengthInfoTest {
 
     @Before
     public void setUp() throws Exception {
@@ -21,16 +21,18 @@ public class DeterminePacketStructureTest {
     // The following characters are not allowed: D800...DFFF
     @Test
     public void CorrectLengthFields64() {
-	DeterminePacketStructure dps = new DeterminePacketStructure();
+	RemainingLengthInfo rli = new RemainingLengthInfo();
 	byte[] correct = { 0x40, (byte) 0x80, (byte) 0x80, 0x03 };
-	assertEquals(64, dps.determineRemainingLengthValue(correct));
+	rli.setTheLengthBytes(correct);
+	assertEquals(64, rli.getRemainingNumberOfBytes());
     }
 
     @Test
     public void CorrectLengthFields321() {
-	DeterminePacketStructure dps = new DeterminePacketStructure();
+	RemainingLengthInfo rli = new RemainingLengthInfo();
 	byte[] correct = { (byte) 193, (byte) 0x02, 0x41, 0x03 };
-	assertEquals(321, dps.determineRemainingLengthValue(correct));
+	rli.setTheLengthBytes(correct);
+	assertEquals(321, rli.getRemainingNumberOfBytes());
     }
 
 }
